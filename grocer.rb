@@ -1,4 +1,8 @@
 def find_item_by_name_in_collection(name, collection)
+  
+    # searches for #{name} in array of hashes and immediately returns hash
+    # once found, only returns 1st found option 
+    
     search_index = 0 
       while search_index < collection.count do 
         search_key = collection[search_index]
@@ -13,36 +17,37 @@ def find_item_by_name_in_collection(name, collection)
   end
   
   def consolidate_cart(cart)
-    new_cart = []
-    counter = 0
-    while counter < cart.length do
-        new_cart_item = find_item_by_name_in_collection(cart[counter][:item], new_cart)
-        if new_cart_item != nil
-            new_cart_item[:count] += 1
+    
+    # :item => AVACADO, :price=>32, :clearance=>true, :count=>2
+   
+    updated_cart = []
+    cart_index = 0 
+      while cart_index < cart.count do 
+        item = find_item_by_name_in_collection(cart[cart_index][:item], updated_cart)
+        if item 
+          item[:count] += 1 
         else 
-            new_cart_item = {
-                :item => cart[counter][:item],
-                :price => cart[counter][:price],
-                :clearance => cart[counter][:clearance],
-                :count => 1
-            }
-            new_cart << new_cart_item
-        end 
-        counter += 1
-    end 
-    new_cart
+          #item not found in array, so add to new array w/key // value of 1 
+          hash_mod = cart[cart_index]
+          hash_mod[:count] = 1 
+          updated_cart << hash_mod
+          puts "This is the new hash #{updated_cart}"
+        end
+        cart_index += 1 
+      end
+    updated_cart
   end
   
   def apply_coupons(cart, coupons)
     counter = 0
-    while counter < coupons.length
+    while counter < coupons.length do
         cart_item = find_item_by_name_in_collection(coupons[counter][:item], cart)
         couponed_item_name = "#{coupons[counter][:item]} W/COUPON"
         cart_item_with_coupon = find_item_by_name_in_collection(couponed_item_name, cart)
         if cart_item && cart_item[:count] >= coupons[counter][:num]
             if cart_item_with_coupon
-               cart_item_with_coupon[:count] += coupon[counter][:num]
-               cart_item[:count] -= coupons[counter][:num]
+                cart_item_with_coupon[:count] += coupons[counter][:num]
+                cart_item[:count] -= coupons[counter][:num]
             else 
                 cart_item_with_coupon = {
                     :item => couponed_item_name,
@@ -55,32 +60,10 @@ def find_item_by_name_in_collection(name, collection)
             end
         end
         counter += 1
-    end
-    cart
+    end 
+    cart 
   end
-  
-  def new_item_hash (item, price, clearance, count)
-    new_item = {
-      :item => "#{item} W/COUPON",
-      :price => price,
-      :clearance => clearance,
-      :count => count
-    }
-  end
-  
-  def does_coupon_exist (item, coupons)
-    #check array of hashes #{coupons} to see if the cart item has a coupon
-    #return index of element in coupon array in apply_coupons
     
-    coupon_index = 0 
-      while coupon_index < coupons.count do 
-        if has_coupon = coupons.index { |h| h[:item] == item }
-          return has_coupon
-        end
-      coupon_index += 1   
-      end
-  end 
-  
   def apply_clearance(cart)
     #applying 20% clearance to items marked #clearance 
     updated_cart = []
