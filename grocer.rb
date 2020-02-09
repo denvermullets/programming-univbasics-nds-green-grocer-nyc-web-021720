@@ -71,33 +71,19 @@ def find_item_by_name_in_collection(name, collection)
   end
   
   def checkout(cart, coupons)
-    # Consult README for inputs and outputs
-    #
-    # This method should call
-    # * consolidate_cart
-    # * apply_coupons
-    # * apply_clearance
-    #
-    # BEFORE it begins the work of calculating the total (or else you might have
-    # some irritated customers
-    
     consolidated_cart = consolidate_cart(cart)
-    puts "This is #{consolidated_cart}"
-    applied_coupons = applied_coupons(console_me, coupons)
-    applied_clearance = apply_clearance(applied_coupons)
-    
-    cart_index = 0 
-    price_total = 0 
-      while cart_index < applied_clearance.length 
-        total += applied_clearance[cart_index][:price] * applied_clearance[cart_index][:count]
-        cart_index += 1 
-      end 
-    
-      if total > 100 
+    couponed_cart = apply_coupons(consolidated_cart, coupons)
+    final_cart = apply_clearance(couponed_cart)
+
+    total = 0
+    counter = 0
+    while counter < final_cart.length 
+        total += final_cart[counter][:price] * final_cart[counter][:count]
+        counter += 1
+    end
+    if total > 100
         total -= (total * 0.10)
-      end 
-      
-      total 
-    
+    end
+    total
   end
   
