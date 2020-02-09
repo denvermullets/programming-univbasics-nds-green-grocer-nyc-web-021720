@@ -87,7 +87,6 @@ def find_item_by_name_in_collection(name, collection)
     # some irritated customers
     
     consolidated_cart = consolidate_cart(cart)
-    puts "This is #{consolidated_cart}"
     applied_coupons = applied_coupons(console_me, coupons)
     applied_clearance = apply_clearance(applied_coupons)
     
