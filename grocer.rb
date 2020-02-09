@@ -68,7 +68,7 @@ def find_item_by_name_in_collection(name, collection)
     counter = 0
     while counter < cart.length do
         if cart[counter][:clearance]
-            cart[counter][:price] = (cart[counter][:price] - (cart[counter][:price] * 0.20)).round
+            cart[counter][:price] = (cart[counter][:price] - (cart[counter][:price] * 0.20)).round(2)
         end
         counter += 1
     end
