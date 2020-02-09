@@ -60,20 +60,14 @@ def find_item_by_name_in_collection(name, collection)
   end
   
   def apply_clearance(cart)
-    #applying 20% clearance to items marked #clearance 
-    updated_cart = []
-    cart_index = 0 
-      while cart_index < cart.count do 
-        if cart[cart_index][:clearance] 
-          disc_price = (cart[cart_index][:price] - (cart[cart_index][:price] * 0.2))
-          cart[cart_index][:price] = disc_price.round(2)
-          updated_cart << cart[cart_index]
-        else 
-          updated_cart << cart[cart_index]
+    counter = 0
+    while counter < cart.length
+        if cart[counter][:clearance]
+            cart[counter][:price] = (cart[counter][:price] - (cart[counter][:price] * 0.20)).round(2)
         end
-        cart_index += 1
-      end 
-    updated_cart
+        counter += 1
+    end
+    cart
   end
   
   def checkout(cart, coupons)
